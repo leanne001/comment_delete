@@ -1,0 +1,44 @@
+<div class="container">
+    <h1>{{ board.title }}</h1> -->
+    <!-- <p>{{ board.pub_date }}</p> -->
+    <!-- <p>{{ board.body }}</p> -->
+    
+    <br>
+    <hr>
+    <!-- 댓글쓰는곳 -->
+    <form action="{% url 'comment_write' board_id=board.id %}" method="POST">
+        {% csrf_token %}
+        대기줄이 혼잡한가요?
+        <select name="crowded">
+                <option value="모름">모름</option>
+                <option value="매우혼잡" selected>매우혼잡</option>
+                <option value="혼잡">혼잡</option>
+                <option value="보통">보통</option>
+        </select>
+        <br>
+        <a>Comment<input type="text" name="content" placeholder=""></a>
+        <br>
+        <a>Password<input type="text" name="password" placeholder=""></a>
+        <input type="submit" value="입력" />
+    </form>
+    <hr>
+
+    <br>
+    <!-- 댓글목록 -->
+    {% for comment in board.comments.all %}
+        <div class="comment">
+          {{ comment.dropdown }}, {{ comment.comment_contents }}
+        </div>
+
+        <div class="comment_delete">
+            <a href="{% url 'comment_delete' comment.id %}"> [x] </a>
+        </div>    
+
+    {% empty %}
+        <p>아직 댓글이 없습니다.</p>
+    {% endfor %}
+    
+        <br>
+    
+    <a href="{% url 'home' %}">돌아가기</a>
+</div>
